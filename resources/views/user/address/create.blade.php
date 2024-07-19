@@ -8,9 +8,11 @@
 </head>
 <body>
     <h1>Add address</h1>
-    @php
-        print_r($errors->all());   
-    @endphp
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <h2>{{ $error }}</h2> 
+        @endforeach
+    @endif
     {{-- Add new Address form  --}}
     <form action="{{route('user.address.store',$user->id)}}" method="POST">
         @csrf

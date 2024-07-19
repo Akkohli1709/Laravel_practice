@@ -14,6 +14,11 @@
 </head>
 <body>
     <h1>All Users </h1>
+    @if (session('status'))
+        <h2>
+            {{ session('status') }}
+        </h2>
+    @endif
     <table>
         <thead>
             <tr>

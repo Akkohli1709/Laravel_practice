@@ -13,7 +13,11 @@ class AddressController extends Controller
      */
     public function index()
     {
-        return redirect()->route('user.index');
+        try {
+            return redirect()->route('user.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Error Occurred');
+        }
     }
 
     /**
@@ -29,8 +33,12 @@ class AddressController extends Controller
      */
     public function store(AddressRequest $request, User $user)
     {   
-        $user->addresses()->create($request->validated());
-        return redirect()->route('user.show',compact('user'));
+        try {
+            $user->addresses()->create($request->validated());
+            return redirect()->route('user.show',compact('user'));
+        }catch(\Exception $exception){
+            return redirect()->back()->withErrors('Error Occurred');
+        }
     }
 
     /**
@@ -54,8 +62,12 @@ class AddressController extends Controller
      */
     public function update(User $user,Address $address,AddressRequest $request )
     {
+        try {
             $address->update($request->validated());
             return redirect()->route('user.show',compact('user'));
+        }catch(\Exception $exception){
+            return redirect()->back()->withErrors('Error Occurred');
+        }
     }
 
     /**
@@ -63,7 +75,11 @@ class AddressController extends Controller
      */
     public function destroy(User $user,Address $address)
     {
-        $address->delete();
-        return redirect()->route('user.show',compact('user'));
+        try {
+            $address->delete();
+            return redirect()->route('user.show',compact('user'));
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Error Occurred');
+        }      
     }
 }

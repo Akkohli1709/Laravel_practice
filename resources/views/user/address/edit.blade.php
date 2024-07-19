@@ -8,6 +8,11 @@
 </head>
 <body>
     <h1>Update address</h1>
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <h2>{{ $error }}</h2> 
+        @endforeach
+    @endif
     {{-- Update address form  --}}
     <form action="{{route('user.address.update',['user'=>$user->id,'address'=>$address->id])}}" method="POST">
         @csrf 

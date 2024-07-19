@@ -9,12 +9,18 @@
 <body>
     <h1>Registration</h1>
  
-    <h2>
+    {{-- <h2>
         @php
             if($errors) 
             print_r($errors->all());
         @endphp
-    </h2>
+    </h2> --}}
+    
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <h2>{{ $error }}</h2> 
+        @endforeach
+    @endif
     <form action="{{route('user.store')}}" method="POST">
         @csrf
         <label for="">Name</label>

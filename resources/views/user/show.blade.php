@@ -13,7 +13,15 @@
     </style>
 </head>
 <body>
+    {{-- getting the status from the route  --}}
+    @if (session('status'))
+        <h2>
+            {{ session('status') }}
+        </h2>
+    @endif
+
     <h1>User Details</h1>
+    
     {{-- All Details of User --}}
     <table>
         <thead>
@@ -39,7 +47,7 @@
     </table>
     <br><br>
     <h1>Addresses:</h1>
-
+   
     {{-- User Address Details --}}
     <table>
         <thead>

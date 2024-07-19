@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\User;
 use App\Models\Address;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\UniqueConstraintViolationException;
+
 class UserController extends Controller
 {
     /**
@@ -29,10 +33,13 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(UserRequest $request)
-    {
-            User::create($request->validated());        
-            return redirect()->route('user.index')->with('status','User is Created Successfully');
-        
+    {   
+        try{
+            User::create($request->validated());
+            return redirect()->route('user.index')->with('status','User is Created Successfully');  
+        }catch(\Exception $exception){
+            return redirect()->back()->withErrors('Error Occurred');
+        }        
     }
 
     /**
@@ -56,8 +63,12 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {    
-        $user->update($request->validated());
-        return redirect()->route('user.index');
+        try {
+            $user->update($request->validated());
+            return redirect()->route('user.show',compact('user'))->with('status','User Updated Successfully');
+        }catch(\Exception $exception){
+            return redirect()->back()->withErrors('Error Occurred');
+        }
     }
 
     /**
@@ -65,9 +76,13 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-        // User::destroy($user->id);
-        return redirect()->route('user.index');
+        try {
+            $user->delete();
+            return redirect()->route('user.index')->with('status','Deleted Successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Error Occurred');
+        }
+        
     }
 
 }

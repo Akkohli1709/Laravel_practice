@@ -24,7 +24,7 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'username' => 'required|alpha_num|max:255',
-            'email' => 'required|email',
+            'email' =>  ['required','email', Rule::unique('users')->ignore($this->route('user')),]
         ];
     }
     public function message(): array
